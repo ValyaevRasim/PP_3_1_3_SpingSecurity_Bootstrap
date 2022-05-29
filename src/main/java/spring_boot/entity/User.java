@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Data
-@Table(name = "user")
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +23,17 @@ public class User implements UserDetails {
 
     @NotEmpty
     @NotBlank
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String username;
 
-    @NotEmpty
+    @NotBlank
+    @Column(name = "firstname")
+    private String firstname;
+
+    @NotBlank
+    @Column(name = "lastname")
+    private String lastname;
+
     @NotBlank
     @Column(nullable = false)
     private String password;
@@ -37,16 +44,11 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String passwordConfirm; //подтверждение пароля
 
-    @Column(name = "firstname")
-    private String firstname;
-
-    @Column(name = "lastname")
-    private String lastname;
-
     @Column(name = "age")
-    private int age;
+    private int age;;
 
-    private boolean active;
+    @Column(name = "enabled")
+    private boolean enabled;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(
@@ -55,11 +57,6 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
-
-
-    @Value("true")
-    @Column(name = "enabled")
-    private boolean enabled;
 
     public User(){}
 
