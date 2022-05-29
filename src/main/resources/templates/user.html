@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:c="">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<br/>
+<br/>
+<h3 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h3>
+<table border="1">
+    <tr>
+        <th>№</th>
+        <th>id</th>
+        <th>логин</th>
+        <th>имя</th>
+        <th>фамилия</th>
+        <th>возраст</th>
+        <th>enabled</th>
+        <th>roles</th>
+    </tr>
+    <th:block th:each="msg,state : ${userList}">
+        <tr>
+            <td th:utext="${state.index+1}">index</td>
+            <td th:utext="${msg.getId()}">index</td>
+            <td th:utext="${msg.getUsername()}">index</td>
+            <td th:utext="${msg.getFirstname()}">index</td>
+            <td th:utext="${msg.getLastname()}">index</td>
+            <td th:utext="${msg.getAge()}">index</td>
+            <td th:utext="${msg.isEnabled()}">index</td>
+            <td th:utext="${msg.getRoles()}">index</td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>

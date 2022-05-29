@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:c="">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+    <body>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+        <br/>
+        <br/>
+        <h1 th:inline="text">Добро пожаловать [[${#httpServletRequest.remoteUser}]]!</h1>
+        <h3>Ограниченный доступ!</h3>
+    </body>
+</html>

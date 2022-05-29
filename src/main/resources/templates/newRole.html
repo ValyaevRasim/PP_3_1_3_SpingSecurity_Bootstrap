@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<br/>
+<br/>
+<h3>СОЗДАНИЕ РОЛИ</h3>
+<form th:method="POST" th:action="@{saveRole}" th:object="${role}">
+
+    <label for="role">role name</label>
+    <input name="text" th:field="*{name}" id="role" type="text"/>
+    <br/>
+    <br/>
+
+    <input type="submit" value="сохранить"/>
+
+</form>
+<p> <a th:href="@{/admin/}"> Вернуться на главную страницу </a> </p>
+
+</form>
+<br/>
+<br/>
+
+</body>
+
+</html>
