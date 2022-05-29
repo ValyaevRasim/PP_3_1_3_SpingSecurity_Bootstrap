@@ -29,12 +29,14 @@ public class ControllerAdmin {
     // начальная страница
     @RequestMapping("/")
     public String showAllUsers(Model model, Principal principal) {
-        System.out.println("showAllUsers/allUsers");
         List<User> allUsers = userDetailServiceImpl.getAllUsers();
         User user = (User) userDetailServiceImpl.loadUserByUsername(principal.getName());
         Set<Role> currentUserRoleList = user.getRoles();
+        model.addAttribute("newUser", new User());
         model.addAttribute("currentUserRoleList", currentUserRoleList);
         model.addAttribute("userList", allUsers);
+        model.addAttribute("allRoles", roleServiceImpl.getAllRoles());
+        System.out.println("showAllUsers/allUsers " + currentUserRoleList.toString());
         return "allUsers";
     }
 

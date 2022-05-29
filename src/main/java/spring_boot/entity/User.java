@@ -2,6 +2,7 @@ package spring_boot.entity;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,20 +22,19 @@ public class User implements UserDetails {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotEmpty
-    @NotBlank
+    @NonNull
     @Column(name = "email", unique = true, nullable = false)
     private String username;
 
-    @NotBlank
+    @NonNull
     @Column(name = "firstname")
     private String firstname;
 
-    @NotBlank
+    @NonNull
     @Column(name = "lastname")
     private String lastname;
 
-    @NotBlank
+    @NonNull
     @Column(nullable = false)
     private String password;
 
@@ -145,4 +145,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }
