@@ -24,4 +24,12 @@ public class RoleServiceImpl implements RoleService{
         return roleRepository.findAll();
     }
 
+    public Role getRoleByName(String roleName) {
+        return roleRepository.getRoleByName(roleName);
+    }
+
+    public Role getRoleById(Long idRole) {
+        return roleRepository.getRoleById(idRole);
+    }
+
 }

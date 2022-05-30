@@ -6,8 +6,6 @@ import spring_boot.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
-
-//    User findByUsername(String username);
     User getUserByUsername(String username);
     User findUserById(Long id);
 }

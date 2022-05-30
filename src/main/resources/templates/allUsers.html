@@ -124,10 +124,23 @@
                                                 <input class="form-control form-control-sm bg-warning" th:field="*{lastname}" id="lastName" type="text" placeholder="LastName"/>
                                             </div>
 
-                                            <div class="form-group">
-                                                <h5 class="h8 mb-0 text-center" >Age</h5>
-                                                <input class="form-control form-control-sm" type="number" th:field="*{age}" id="age" name="age" min="1" max="100" required  placeholder="age 0-100"/>
+
+                                            <div class="row">
+                                                <div class="col-sm-6 bg-white">
+                                                    <div class="form-group">
+                                                        <h5 class="h8 mb-0 text-center" >Age</h5>
+                                                        <input class="form-control form-control-sm" type="number" th:field="*{age}" id="age" name="age" min="1" max="100" required  placeholder="age 0-100"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 bg-white">
+                                                    <div class="form-group text-center">
+                                                        <h5 class="h8 mb-0 text-center" >Enabled</h5>
+                                                        <input type="checkbox" style="text-align:center;" th:field="*{enabled}"/>
+                                                    </div>
+                                                </div>
                                             </div>
+
+
 
                                             <div class="form-group">
                                                 <h5 class="h8 mb-0 text-center" >email</h5>
@@ -141,18 +154,15 @@
 
                                             <div class="form-group text-center">
                                                 <label for = "roles">Role</label>
-                                                <select multiple class = "form-control" id="roles">
+                                                <select multiple class = "form-control" id="roles"  name="checkboxName">
                                                     <option
-                                                            th:each="role : ${allRoles}"
-                                                            th:text="${role.getName()}"
+                                                            th:each="role : ${roleList}"
                                                             th:value="${role.getId()}"
-                                                    ></option>
-<!--                                                            th:field="*{roles}"-->
+                                                            th:text="${role.getName()}"
+                                                            >
+                                                    </option>
                                                 </select>
-
-
                                             </div>
-
                                             <div class="form-group">
                                                 <div class="mx-auto" style="width: 100px;">
                                                     <input type="submit" class="btn btn-success" value="Add new user"/>

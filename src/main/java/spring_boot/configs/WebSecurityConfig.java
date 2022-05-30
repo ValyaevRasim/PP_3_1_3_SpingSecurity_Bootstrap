@@ -30,8 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-//        return NoOpPasswordEncoder.getInstance();
+//        return new BCryptPasswordEncoder();
+        return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean
@@ -45,22 +45,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 // аутентификация inMemory
 //******************************
 //authorities - без приставки ROLE_. D configure(HttpSecurity http) д.б открыт доступ к url .antMatchers("/admin/**").hasAuthority("ADMIN")
+
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.inMemoryAuthentication()
 //                .withUser("admin")
+//                .password("admin")
 //                .password(passwordEncoder().encode("admin"))
-//                .authorities("ADMIN")
+//                .authorities("ADMIN") // в configure(HttpSecurity http) д.б открыт доступ к url .antMatchers("/admin/**").hasAuthority("ADMIN")
 //                .and()
 //                .withUser("user")
 //                .password(passwordEncoder().encode("user"))
-//                .authorities("USER")
+//                .authorities("USER") // в configure(HttpSecurity http) д.б открыт доступ к url .antMatchers("/user/**").hasRole("USER")
 //        ;
 //    }
 
 
 //******************************
-//    //roles - без приставки ROLE_. D configure(HttpSecurity http) д.б открыт доступ к url .antMatchers("/admin/**").hasRole("ROLE_ADMIN")
+// roles - без приставки ROLE_. D configure(HttpSecurity http) д.б открыт доступ к url .antMatchers("/admin/**").hasRole("ROLE_ADMIN")
+
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.inMemoryAuthentication()

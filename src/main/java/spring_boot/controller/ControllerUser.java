@@ -33,7 +33,9 @@ public class ControllerUser {
         System.out.println("showAllUsers/allUsers");
         List<User> allUsers = new ArrayList<>();
         User user = userDetailServiceImpl.getUserByUsername(principal.getName());
-        allUsers.add(user);
+        if (user != null) {
+            allUsers.add(user);
+        }
         model.addAttribute("userList", allUsers);
         return "user";
     }

@@ -10,8 +10,8 @@ import spring_boot.service.RoleServiceImpl;
 import spring_boot.service.UserDetailServiceImpl;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -29,36 +29,29 @@ public class ControllerAdmin {
     // начальная страница
     @RequestMapping("/")
     public String showAllUsers(Model model, Principal principal) {
-        List<User> allUsers = userDetailServiceImpl.getAllUsers();
         User user = (User) userDetailServiceImpl.loadUserByUsername(principal.getName());
-        Set<Role> currentUserRoleList = user.getRoles();
         model.addAttribute("newUser", new User());
-        model.addAttribute("currentUserRoleList", currentUserRoleList);
-        model.addAttribute("userList", allUsers);
-        model.addAttribute("allRoles", roleServiceImpl.getAllRoles());
-        System.out.println("showAllUsers/allUsers " + currentUserRoleList.toString());
+        model.addAttribute("currentUserRoleList", user.getRoles());
+        model.addAttribute("userList", userDetailServiceImpl.getAllUsers());
+        model.addAttribute("roleList", roleServiceImpl.getAllRoles());
+        System.out.println("showAllUsers/allUsers " + user.getRoles().toString());
         return "allUsers";
     }
 
     // добавление нового пользователяю, используем 2 метода
-//    @Secured("ROLE_ADMIN")
-    //в config добавить @EnableGlobalMethodSecurity(securedEnabled = true) //защищаем отдельные методы
-    @RequestMapping("/addUser")
-    public String addNewUser(Model model) {
-        System.out.println("addUser/new");
-        List<Role> roles = roleServiceImpl.getAllRoles();
-        model.addAttribute("user", new User());
-        model.addAttribute("allRoles", roles);
-        return "newUser";
-    }
-
-    //    @Secured("ROLE_ADMIN")
     @PostMapping("/saveUser")
-    public String createNewUser(@ModelAttribute("user") User user) {
-        System.out.println("createNewUser");
-        userDetailServiceImpl.saveUser(user);
+    public String addUser(@ModelAttribute User newUser, @RequestParam(value = "checkboxName", required = false) Long[] checkboxName){
+        Set<Role> rolesSet = new HashSet<>();
+        if(checkboxName != null) {
+            for (int i = 0; i < checkboxName.length; i++) {
+                rolesSet.add(roleServiceImpl.getRoleById(checkboxName[i]));
+            }
+        }
+        newUser.setRoles(rolesSet);
+        userDetailServiceImpl.saveUser(newUser);
         return "redirect:/admin/";
     }
+
 
     //    обновление данных пользователя, используем 2 метода
     @GetMapping("/updateUser/{id}")

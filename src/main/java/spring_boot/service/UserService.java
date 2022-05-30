@@ -5,9 +5,9 @@ import spring_boot.entity.User;
 import java.util.List;
 
 public interface UserService {
-    public void saveUser(User user);
-    public void deleteUserById(long id);
-    public User getUserById (long id);
-    public List<User> getAllUsers();
-    public User getUserByUsername(String username);
+    void saveUser(User user);
+    void deleteUserById(long id);
+    User getUserById (long id);
+    List<User> getAllUsers();
+    User getUserByUsername(String username);
 }

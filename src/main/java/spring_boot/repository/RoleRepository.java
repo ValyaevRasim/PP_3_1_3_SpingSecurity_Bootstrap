@@ -6,5 +6,6 @@ import spring_boot.entity.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    Role findRoleByName(String roleName);
+    Role getRoleByName(String roleName);
+    Role getRoleById(Long id);
 }
