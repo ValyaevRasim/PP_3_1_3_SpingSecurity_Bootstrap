@@ -87,7 +87,7 @@
 
                                                 <!-- Modal -->
                                                 <div class="modal" th:id="${'updateUser' + currentUser.getId()}">
-                                                    <div class="modal-dialog" role="document">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
@@ -124,10 +124,9 @@
                                                                                 </div>
                                                                                 <div class="col-sm-6 bg-white">
                                                                                     <div class="form-group form-check text-center">
-                                                                                        <label for="editEnabled" class="h8 mb-2 col-form-label"><strong>Enabled:</strong></label>
+                                                                                        <label class="h8 mb-2 col-form-label"><strong>Enabled:</strong></label>
                                                                                         <p>
-                                                                                            <input class="form-check-input" type="checkbox"
-                                                                                                   style="text-align:center;" id="editEnabled" name="enabled" th:value="${currentUser.isEnabled()}"/>
+                                                                                            <input type="checkbox" name="enabled" id ="editEnabled" th:value="${currentUser.isEnabled()} checked"/>
                                                                                         </p>
                                                                                     </div>
                                                                                 </div>
@@ -135,12 +134,13 @@
                                                                             <div class="form-group text-center">
                                                                                 <label for="editUsername" class="col-form-label"><strong>email:</strong></label>
                                                                                 <input class="form-control form-control-sm" th:value="${currentUser.getUsername()}"
-                                                                                       name="username" id="editUsername" type="text" required minlength="3" maxlength="50"/>
+                                                                                       name="username" id="editUsername" type="email" required minlength="3" maxlength="50"/>
                                                                             </div>
 
                                                                             <div class="form-group text-center">
                                                                                 <label for="editPasword" class="col-form-label"><strong>password:</strong></label>
-                                                                                <input class="form-control form-control-sm" th:value="null" id="editPasword" type="password" name="password" placeholder="password"/>
+                                                                                <input class="form-control form-control-sm" th:value="null" id="editPasword" type="password"
+                                                                                       name="password" placeholder="password"/>
                                                                             </div>
 
                                                                             <div class="form-group text-center">
@@ -161,8 +161,7 @@
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" th:data-dismiss="modal">Close</button>
-    <!--                                                                <button type="button" class="btn btn-primary" th:data-target="${'/'+currentUser.getId()}">Save changes</button>-->
-                                                                    <input type="submit" class="btn btn-info" value="Edit"/>
+                                                                    <input type="submit" class="btn btn-primary" value="Edit"/>
                                                                 </div>
                                                             </form>
                                                         </div>

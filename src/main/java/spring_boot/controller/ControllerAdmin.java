@@ -57,9 +57,15 @@ public class ControllerAdmin {
     @PatchMapping("updateUser/{id}")
     public String updateUser(@ModelAttribute User editUser,
                              @RequestParam(value = "checkboxName", required = false) Long[] checkboxName,
-                            @RequestParam(value = "enabled", required = false) boolean enabledCheckbox){
+                            @RequestParam(value = "enabled", required = false) Boolean enabledCheckbox){
         System.out.println(enabledCheckbox);
         Set<Role> rolesSet = new HashSet<>();
+        if ((enabledCheckbox != null) && (enabledCheckbox = true)) {
+            editUser.setEnabled(true);
+        } else {
+            editUser.setEnabled(false);
+        }
+
         if(checkboxName != null) {
             for (long i : checkboxName) {
                 rolesSet.add(roleServiceImpl.getRoleById(i));
