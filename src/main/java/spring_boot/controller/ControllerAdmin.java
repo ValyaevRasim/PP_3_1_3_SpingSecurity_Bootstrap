@@ -78,23 +78,4 @@ public class ControllerAdmin {
         return "redirect:/admin/";
     }
 
-    // добавление новой роли, используем 2 метода
-//    @RequestMapping("/addRole")
-    @GetMapping("/addRole")
-    public String newRolePage(Model model) {
-        System.out.println("addNewRole/new");
-        model.addAttribute("role", new Role());
-        return "newRole";
-    }
-
-    //    @PostMapping()
-//    @RequestMapping(value = "/addRole", method = RequestMethod.POST)
-    @PostMapping("/saveRole")
-    public String saveRole(@ModelAttribute("role") Role role) {
-        System.out.println("createNewRole");
-//        role.setName("ROLE_" + role.getName().toUpperCase());
-        role.setName(role.getName().toUpperCase());
-        roleServiceImpl.saveRole(role);
-        return "redirect:/admin/";
-    }
 }

@@ -78,8 +78,8 @@
                                         <td>
                                             <span th:each="role: ${currentUser.getRoles()}"><span th:text="${role.name}"/> </span>
                                         </td>
+                                        <!--**********************EDIT ON**************************-->
                                         <td>
-<!--**********************EDIT ON**************************-->
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-info" data-toggle="modal" th:data-target="${'#updateUser' + currentUser.getId()}">
                                                 Edit
@@ -168,19 +168,97 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                            <!-- Button trigger modal -->
  <!--**********************EDIT OFF**************************-->
                                         </td>
-
-<!--**********************DELETE ON**************************-->
                                         <td>
-                                            <form th:action="@{'deleteUser/'+${currentUser.getId()}}">
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                            </form>
+<!--**********************DELETE ON**************************-->
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" th:data-target="${'#deleteUser' + currentUser.getId()}">
+                                                Delete
+                                            </button>
+
+                                            <!-- Modal -->
+                                            <div class="modal" th:id="${'deleteUser' + currentUser.getId()}">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabelDelete">Edit user</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+
+                                                        <form th:method="GET" th:action="@{deleteUser/{id}(id=${currentUser.getId()})}" id="deleteUser">
+                                                            <div class="modal-body">
+                                                                <div class="row">
+                                                                    <div class="col-sm-3 bg-white">
+                                                                    </div>
+                                                                    <div class="col-sm-6 bg-white">
+                                                                        <div class="form-group text-center">
+                                                                            <label for="deleteID" class="col-form-label"><strong>ID:</strong></label>
+                                                                            <input class="form-control disabled" type="number" id="deleteID" name="ID" th:value="${currentUser.getId()}" readonly/>
+                                                                        </div>
+                                                                        <div class="form-group text-center">
+                                                                            <label for="deleteFirstname" class="col-form-label"><strong>First Name:</strong></label>
+                                                                            <input class="form-control" type="text" id="deleteFirstname" name="firstname" th:value="${currentUser.getFirstname()}" readonly/>
+                                                                        </div>
+                                                                        <div class="form-group text-center">
+                                                                            <label for="deleteLastname" class="col-form-label"><strong>Last Name:</strong></label>
+                                                                            <input class="form-control form-control-sm" id="deleteLastname"
+                                                                                   name="lastname" type="text" th:value="${currentUser.getLastname()}" readonly/>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-sm-6 bg-white">
+                                                                                <div class="form-group text-center">
+                                                                                    <label for="deleteAge" class="col-form-label"><strong>Age:</strong></label>
+                                                                                    <input class="form-control form-control-sm" id="deleteAge" type="number"
+                                                                                           th:value="${currentUser.getAge()}" name="age" min="1" max="100" required readonly/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6 bg-white">
+                                                                                <div class="form-group form-check text-center">
+                                                                                    <label for="deleteEnabled" class="h8 mb-2 col-form-label"><strong>Enabled:</strong></label>
+                                                                                    <p>
+                                                                                        <input class="form-check-input" type="checkbox"
+                                                                                               style="text-align:center;" id="deleteEnabled"
+                                                                                               name="enabled" th:value="${currentUser.isEnabled()}" readonly/>
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group text-center">
+                                                                            <label for="deleteUsername" class="col-form-label"><strong>email:</strong></label>
+                                                                            <input class="form-control form-control-sm" th:value="${currentUser.getUsername()}"
+                                                                                   name="username" id="deleteUsername" type="text" required minlength="3" maxlength="50" readonly/>
+                                                                        </div>
+
+                                                                        <div class="form-group text-center">
+                                                                            <label for="deleteRoles" class="col-form-label"><strong>Roles:</strong></label>
+                                                                            <select multiple class = "form-control" id="deleteRoles" name="checkboxName" th:readonly="true">
+                                                                                <option
+                                                                                        th:each="role : ${roleList}"
+                                                                                        th:value="${role.getId()}"
+                                                                                        th:text="${role.getName()}"
+                                                                                >
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3 bg-white">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" th:data-dismiss="modal">Close</button>
+                                                                <!--                                                                <button type="button" class="btn btn-primary" th:data-target="${'/'+currentUser.getId()}">Save changes</button>-->
+                                                                <input type="submit" class="btn btn-danger" value="Delete"/>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
-<!--**********************DELETE OFF**************************-->
                                     </tr>
+<!--**********************DELETE OFF**************************-->
                                 </th:block>
 
                             </table>
