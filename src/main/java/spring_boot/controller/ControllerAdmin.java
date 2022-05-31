@@ -44,7 +44,7 @@ public class ControllerAdmin {
         Set<Role> rolesSet = new HashSet<>();
         if(checkboxName != null) {
             for (long i : checkboxName) {
-                rolesSet.add(roleServiceImpl.getRoleById(checkboxName[(int) i]));
+                rolesSet.add(roleServiceImpl.getRoleById(i));
             }
         }
         newUser.setRoles(rolesSet);
@@ -55,22 +55,18 @@ public class ControllerAdmin {
 
     //    обновление данных пользователя, используем 2 метода
     @PatchMapping("updateUser/{id}")
-    public String updateUser(@ModelAttribute User editUser, @RequestParam(value = "checkboxName", required = false) Long[] checkboxName){
+    public String updateUser(@ModelAttribute User editUser,
+                             @RequestParam(value = "checkboxName", required = false) Long[] checkboxName,
+                            @RequestParam(value = "enabled", required = false) boolean enabledCheckbox){
+        System.out.println(enabledCheckbox);
         Set<Role> rolesSet = new HashSet<>();
         if(checkboxName != null) {
             for (long i : checkboxName) {
-                rolesSet.add(roleServiceImpl.getRoleById(checkboxName[(int) i]));
+                rolesSet.add(roleServiceImpl.getRoleById(i));
             }
         }
         editUser.setRoles(rolesSet);
         userDetailServiceImpl.saveUser(editUser);
-        return "redirect:/admin/";
-    }
-
-    @RequestMapping("/{id}")
-    public String edit(@ModelAttribute User user) {
-        System.out.println("edit");
-        userDetailServiceImpl.saveUser(user);
         return "redirect:/admin/";
     }
 

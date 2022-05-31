@@ -102,51 +102,50 @@
                                                                         <div class="col-sm-3 bg-white">
                                                                         </div>
                                                                         <div class="col-sm-6 bg-white">
-
-<!--                                                                        <form th:method="PATCH" th:action="@{/{id}(id=${currentUser.getId()})}" id="editUser">-->
-                                                                            <fieldset disabled>
-                                                                                <div class="form-group text-center">
-                                                                                    <label for="editID" class="col-form-label"><strong>ID:</strong></label>
-                                                                                    <input class="form-control disabled" type="text" id="editID" name="ID" th:value="${currentUser.getId()}"/>
-                                                                                </div>
-                                                                            </fieldset>
+                                                                            <div class="form-group text-center">
+                                                                                <label for="editID" class="col-form-label"><strong>ID:</strong></label>
+                                                                                <input class="form-control disabled" type="number" id="editID" name="ID" th:value="${currentUser.getId()}" readonly/>
+                                                                            </div>
                                                                             <div class="form-group text-center">
                                                                                 <label for="editFirstname" class="col-form-label"><strong>First Name:</strong></label>
-                                                                                <input class="form-control" type="text" id="editFirstname" name="editFirstname" th:value="${currentUser.getFirstname()}"/>
+                                                                                <input class="form-control" type="text" id="editFirstname" name="firstname" th:value="${currentUser.getFirstname()}"/>
                                                                             </div>
                                                                             <div class="form-group text-center">
                                                                                 <label for="editLastname" class="col-form-label"><strong>Last Name:</strong></label>
-                                                                                <input class="form-control form-control-sm" id="editLastname" name="lastaname" type="text" th:value="${currentUser.getLastname()}"/>
+                                                                                <input class="form-control form-control-sm" id="editLastname" name="lastname" type="text" th:value="${currentUser.getLastname()}"/>
                                                                             </div>
                                                                             <div class="row">
                                                                                 <div class="col-sm-6 bg-white">
                                                                                     <div class="form-group text-center">
                                                                                         <label for="editAge" class="col-form-label"><strong>Age:</strong></label>
-                                                                                        <input class="form-control form-control-sm" id="editAge" type="number" th:value="${currentUser.getAge()}" name="age" min="1" max="100" required placeholder="age 0-100"/>
+                                                                                        <input class="form-control form-control-sm" id="editAge" type="number"
+                                                                                               th:value="${currentUser.getAge()}" name="age" min="1" max="100" required placeholder="age 0-100"/>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-sm-6 bg-white">
-                                                                                    <div class="form-group text-center">
+                                                                                    <div class="form-group form-check text-center">
                                                                                         <label for="editEnabled" class="h8 mb-2 col-form-label"><strong>Enabled:</strong></label>
                                                                                         <p>
-                                                                                            <input type="checkbox" style="text-align:center;" id="editEnabled" th:value="${currentUser.isEnabled()}"/>
+                                                                                            <input class="form-check-input" type="checkbox"
+                                                                                                   style="text-align:center;" id="editEnabled" name="enabled" th:value="${currentUser.isEnabled()}"/>
                                                                                         </p>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group text-center">
                                                                                 <label for="editUsername" class="col-form-label"><strong>email:</strong></label>
-                                                                                <input class="form-control form-control-sm" th:value="${currentUser.getUsername()}" id="editUsername" type="text"/>
+                                                                                <input class="form-control form-control-sm" th:value="${currentUser.getUsername()}"
+                                                                                       name="username" id="editUsername" type="text" required minlength="3" maxlength="50"/>
                                                                             </div>
 
                                                                             <div class="form-group text-center">
                                                                                 <label for="editPasword" class="col-form-label"><strong>password:</strong></label>
-                                                                                <input class="form-control form-control-sm" th:value="${currentUser.getPassword()}" id="editPasword" type="password" placeholder="password"/>
+                                                                                <input class="form-control form-control-sm" th:value="null" id="editPasword" type="password" name="password" placeholder="password"/>
                                                                             </div>
 
                                                                             <div class="form-group text-center">
-                                                                                <label for="editRoles" class="col-form-label"><strong>password:</strong></label>
-                                                                                <select multiple class = "form-control" id="editRoles"  name="checkboxName">
+                                                                                <label for="editRoles" class="col-form-label"><strong>Roles:</strong></label>
+                                                                                <select multiple class = "form-control" id="editRoles" name="checkboxName">
                                                                                     <option
                                                                                             th:each="role : ${roleList}"
                                                                                             th:value="${role.getId()}"
