@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import spring_boot.entity.User;
+import spring_boot.service.RoleServiceImpl;
 import spring_boot.service.UserDetailServiceImpl;
 
 import java.security.Principal;
@@ -16,6 +17,8 @@ import java.util.List;
 public class ControllerUser {
     @Autowired
     private UserDetailServiceImpl userDetailServiceImpl;
+    @Autowired
+    private RoleServiceImpl roleServiceImpl;
 
     // начальная страница
     @GetMapping({"/", "/index"})
@@ -28,16 +31,14 @@ public class ControllerUser {
         return "authorized";
     }
 
-    @RequestMapping("user/")
-    public String user(Model model, Principal principal) {
-        System.out.println("showAllUsers/allUsers");
-        List<User> allUsers = new ArrayList<>();
-        User user = userDetailServiceImpl.getUserByUsername(principal.getName());
-        if (user != null) {
-            allUsers.add(user);
-        }
-        model.addAttribute("userList", allUsers);
+    @RequestMapping("/user")
+    public String showAllUsers(Model model, Principal principal) {
+        User user = (User) userDetailServiceImpl.loadUserByUsername(principal.getName());
+        model.addAttribute("currentUserRoleList", user.getRoles());
+        model.addAttribute("currentUser", user);
+        System.out.println("showAllUsers/allUsers " + user.getRoles().toString());
         return "user";
     }
+
 
 }

@@ -35,7 +35,7 @@ public class ControllerAdmin {
         model.addAttribute("userList", userDetailServiceImpl.getAllUsers());
         model.addAttribute("roleList", roleServiceImpl.getAllRoles());
         System.out.println("showAllUsers/allUsers " + user.getRoles().toString());
-        return "allUsers";
+        return "admin";
     }
 
     // добавление нового пользователяю, используем 2 метода
@@ -57,10 +57,10 @@ public class ControllerAdmin {
     @PatchMapping("updateUser/{id}")
     public String updateUser(@ModelAttribute User editUser,
                              @RequestParam(value = "checkboxName", required = false) Long[] checkboxName,
-                            @RequestParam(value = "enabled", required = false) Boolean enabledCheckbox){
+                             @RequestParam(value = "enabled", required = false) String enabledCheckbox){
         System.out.println(enabledCheckbox);
         Set<Role> rolesSet = new HashSet<>();
-        if ((enabledCheckbox != null) && (enabledCheckbox = true)) {
+        if ((enabledCheckbox != null) && (enabledCheckbox.equals("1"))) {
             editUser.setEnabled(true);
         } else {
             editUser.setEnabled(false);
