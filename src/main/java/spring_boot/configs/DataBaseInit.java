@@ -26,19 +26,15 @@ public class DataBaseInit {
         this.roleService = roleService;
     }
 
-//    @PostConstruct
+    @PostConstruct
     private void startDB() {
         Role roleAdmin = new Role("ADMIN");
-        Role roleAdmin1 = new Role("ROLE_ADMIN");
+        Role roleAdmin1 = new Role("TEST");
         Role roleUser = new Role("USER");
         roleService.saveRole(roleAdmin);
         roleService.saveRole(roleAdmin1);
         roleService.saveRole(roleUser);
-        Set<Role> roles = new HashSet<>();
-        roles = Set.copyOf(roleService.getAllRoles());
-//        roles.add(roleAdmin);
-//        roles.add(roleAdmin1);
-//        roles.add(roleUser);
+        Set<Role> roles = Set.copyOf(roleService.getAllRoles());
 
         User admin = new User("admin", "FirstNameAdmin", "lastNameAdmin", "admin", 33, true);
         userServiceImpl.saveUser(admin);

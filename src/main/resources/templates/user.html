@@ -29,7 +29,6 @@
         <div class="col-sm-2 bg-white min-vh-100" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <ul class="nav nav-pills flex-column">
                 <br />
-                <!--                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">-->
                 <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                     <a class="nav-link" th:href="@{/admin/}">Admin</a>
                 </li>

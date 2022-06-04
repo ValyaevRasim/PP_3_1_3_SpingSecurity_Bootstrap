@@ -13,7 +13,7 @@
     <a class="navbar-brand" href="text">
         <strong> [[${#httpServletRequest.remoteUser}]]</strong> with roles:
         <tr th:each="role: ${currentUserRoleList}">
-            <td th:text="${role.name}" />
+            <td th:text="${role.getName()}" />
         </tr>
     </a>
     <ul class="navbar-nav float-lg-end">

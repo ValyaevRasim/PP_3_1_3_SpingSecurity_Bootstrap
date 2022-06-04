@@ -2,6 +2,10 @@ package spring_boot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,20 +34,12 @@ public class ControllerAdmin {
 
     // начальная страница
     @RequestMapping("/")
-    public String showAllUsers(Model model, Principal principal) {
-        User user = null;
-        try {
-            user = (User) userDetailServiceImpl.loadUserByUsername(principal.getName());
-        } catch (UsernameNotFoundException e) {
-            Set roles = new HashSet();
-            roles.add("ADMIN");
-            user = new User(principal.getName(), roles);
-        }
-
+    public String showAllUsers(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        User user = (User) userDetailServiceImpl.loadUserByUsername(userDetails.getUsername());
         model.addAttribute("newUser", new User());
+        model.addAttribute("roleList", roleServiceImpl.getAllRoles());
         model.addAttribute("currentUserRoleList", user.getRoles());
         model.addAttribute("userList", userDetailServiceImpl.getAllUsers());
-        model.addAttribute("roleList", roleServiceImpl.getAllRoles());
         System.out.println("showAllUsers/allUsers " + user.getRoles().toString());
         return "admin";
     }

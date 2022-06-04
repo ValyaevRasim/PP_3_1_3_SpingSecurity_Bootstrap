@@ -55,6 +55,7 @@ public class User implements UserDetails {
 
     public User() {
     }
+
     public User(String username, Set<Role> roles) {
         this.username = username;
         this.roles = roles;
