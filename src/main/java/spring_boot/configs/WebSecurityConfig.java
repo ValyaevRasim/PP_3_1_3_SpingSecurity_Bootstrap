@@ -3,16 +3,23 @@ package spring_boot.configs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 import javax.sql.DataSource;
@@ -24,15 +31,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final SuccessUserHandler successUserHandler;
 
-    public WebSecurityConfig(@Qualifier("userDetailServiceImpl") UserDetailsService userDetailsService, SuccessUserHandler successUserHandler) {
+
+    public WebSecurityConfig(@Qualifier("userDetailServiceImpl") UserDetailsService userDetailsService,
+                             SuccessUserHandler successUserHandler    ) {
         this.successUserHandler = successUserHandler;
         this.userDetailsService = userDetailsService;
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
 //        return NoOpPasswordEncoder.getInstance();
     }
+
+
+
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
@@ -42,23 +55,47 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return daoAuthenticationProvider;
     }
 
+
+//    @Override
+//    public UserDetailsService userDetailsService() {
+//
+//        //User Role
+//        UserDetails theAdmin = User.withUsername("admin")
+////                .passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()::encode)
+//                .password(passwordEncoder().encode("admin")).authorities("ADMIN").build();
+//
+//        //Manager Role
+//        UserDetails theUser = User.withUsername("user")
+////                .passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()::encode)
+//                .password(passwordEncoder().encode("user")).authorities("USER").build();
+//
+//
+//        InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
+//
+//        userDetailsManager.createUser(theAdmin);
+//        userDetailsManager.createUser(theUser);
+//
+//        return userDetailsManager;
+//    }
+
+
 // аутентификация inMemory
 //******************************
 //authorities - без приставки ROLE_. D configure(HttpSecurity http) д.б открыт доступ к url .antMatchers("/admin/**").hasAuthority("ADMIN")
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("admin")
-//                .password("admin")
-//                .password(passwordEncoder().encode("admin"))
-//                .authorities("ADMIN") // в configure(HttpSecurity http) д.б открыт доступ к url .antMatchers("/admin/**").hasAuthority("ADMIN")
-//                .and()
-//                .withUser("user")
-//                .password(passwordEncoder().encode("user"))
-//                .authorities("USER") // в configure(HttpSecurity http) д.б открыт доступ к url .antMatchers("/user/**").hasRole("USER")
-//        ;
-//    }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        auth.inMemoryAuthentication()
+                .withUser("admin")
+                .password(encoder.encode("admin"))
+                .authorities("ADMIN","USER") // в configure(HttpSecurity http) д.б открыт доступ к url .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .and()
+                .withUser("user")
+                .password(passwordEncoder().encode("user"))
+                .authorities("USER") // в configure(HttpSecurity http) д.б открыт доступ к url .antMatchers("/user/**").hasRole("USER")
+        ;
+    }
 
 
 //******************************
@@ -98,4 +135,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                    .logout().permitAll()
         ;
     }
+
 }

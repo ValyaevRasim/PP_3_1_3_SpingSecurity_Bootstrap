@@ -22,35 +22,30 @@ public class User implements UserDetails {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NonNull
-    @Column(name = "email", unique = true, nullable = false)
+    @NotBlank
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @NonNull
+    @NotBlank
     @Column(name = "firstname")
     private String firstname;
 
-    @NonNull
+    @NotBlank
     @Column(name = "lastname")
     private String lastname;
 
-    @NonNull
+    @NotBlank
     @Column(nullable = false)
     private String password;
 
-    @Transient
-    @NotEmpty
-    @NotBlank
-    @Column(nullable = false)
-    private String passwordConfirm; //подтверждение пароля
-
     @Column(name = "age")
-    private int age;;
+    private int age;
+    ;
 
     @Column(name = "enabled")
     private boolean enabled;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -58,7 +53,26 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
-    public User(){}
+    public User() {
+    }
+    public User(String username, Set<Role> roles) {
+        this.username = username;
+        this.roles = roles;
+    }
+
+    public User(@NonNull String username, @NonNull String firstname, @NonNull String lastname, @NonNull String password, int age, boolean enabled) {
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.password = password;
+        this.age = age;
+        this.enabled = enabled;
+    }
+
+    public User(@NonNull String username, @NonNull String firstname, @NonNull String lastname, @NonNull String password, int age, boolean enabled, Set<Role> roles) {
+        this(username, firstname, lastname, password, age, enabled);
+        this.roles = roles;
+    }
 
     public Long getId() {
         return id;
@@ -105,6 +119,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+//        return roles;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package spring_boot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +31,15 @@ public class ControllerAdmin {
     // начальная страница
     @RequestMapping("/")
     public String showAllUsers(Model model, Principal principal) {
-        User user = (User) userDetailServiceImpl.loadUserByUsername(principal.getName());
+        User user = null;
+        try {
+            user = (User) userDetailServiceImpl.loadUserByUsername(principal.getName());
+        } catch (UsernameNotFoundException e) {
+            Set roles = new HashSet();
+            roles.add("ADMIN");
+            user = new User(principal.getName(), roles);
+        }
+
         model.addAttribute("newUser", new User());
         model.addAttribute("currentUserRoleList", user.getRoles());
         model.addAttribute("userList", userDetailServiceImpl.getAllUsers());
@@ -40,9 +50,9 @@ public class ControllerAdmin {
 
     // добавление нового пользователяю, используем 2 метода
     @PostMapping("/saveUser")
-    public String addUser(@ModelAttribute User newUser, @RequestParam(value = "checkboxName", required = false) Long[] checkboxName){
+    public String addUser(@ModelAttribute User newUser, @RequestParam(value = "checkboxName", required = false) Long[] checkboxName) {
         Set<Role> rolesSet = new HashSet<>();
-        if(checkboxName != null) {
+        if (checkboxName != null) {
             for (long i : checkboxName) {
                 rolesSet.add(roleServiceImpl.getRoleById(i));
             }
@@ -57,7 +67,7 @@ public class ControllerAdmin {
     @PatchMapping("updateUser/{id}")
     public String updateUser(@ModelAttribute User editUser,
                              @RequestParam(value = "checkboxName", required = false) Long[] checkboxName,
-                             @RequestParam(value = "enabled", required = false) String enabledCheckbox){
+                             @RequestParam(value = "enabled", required = false) String enabledCheckbox) {
         System.out.println(enabledCheckbox);
         Set<Role> rolesSet = new HashSet<>();
         if ((enabledCheckbox != null) && (enabledCheckbox.equals("1"))) {
@@ -66,7 +76,7 @@ public class ControllerAdmin {
             editUser.setEnabled(false);
         }
 
-        if(checkboxName != null) {
+        if (checkboxName != null) {
             for (long i : checkboxName) {
                 rolesSet.add(roleServiceImpl.getRoleById(i));
             }

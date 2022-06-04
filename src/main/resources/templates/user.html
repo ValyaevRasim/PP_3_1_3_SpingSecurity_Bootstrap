@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:c="">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -25,15 +26,18 @@
 <div class="container-fluid bg-light">
     <div class="row">
 
-        <div class="col-sm-2 bg-white min-vh-100">
+        <div class="col-sm-2 bg-white min-vh-100" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <ul class="nav nav-pills flex-column">
                 <br />
-                <li class="nav-item">
+                <!--                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">-->
+                <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                    <a class="nav-link" th:href="@{/admin/}">Admin</a>
+                </li>
+                <li class="nav-item ">
                     <a class="nav-link active" th:href="@{/user/}">User</a>
                 </li>
             </ul>
         </div>
-
 
         <!--            правая колонка, где набор вкладок -->
         <div class="col-sm-10 bg-light">
