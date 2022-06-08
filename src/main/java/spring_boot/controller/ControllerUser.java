@@ -17,8 +17,6 @@ import java.util.List;
 public class ControllerUser {
     @Autowired
     private UserDetailServiceImpl userDetailServiceImpl;
-    @Autowired
-    private RoleServiceImpl roleServiceImpl;
 
     // начальная страница
     @GetMapping({"/", "/index"})

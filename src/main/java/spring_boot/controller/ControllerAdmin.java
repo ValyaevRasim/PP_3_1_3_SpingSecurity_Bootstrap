@@ -44,7 +44,7 @@ public class ControllerAdmin {
         return "admin";
     }
 
-    // добавление нового пользователяю, используем 2 метода
+    // добавление нового пользователяю
     @PostMapping("/saveUser")
     public String addUser(@ModelAttribute User newUser, @RequestParam(value = "checkboxName", required = false) Long[] checkboxName) {
         Set<Role> rolesSet = new HashSet<>();

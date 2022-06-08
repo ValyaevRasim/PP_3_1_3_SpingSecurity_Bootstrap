@@ -22,6 +22,11 @@ public class UserDetailServiceImpl implements UserService, UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+////        return NoOpPasswordEncoder.getInstance();
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
