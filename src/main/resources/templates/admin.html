@@ -10,7 +10,7 @@
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand" href="text">
+    <a class="navbar-brand text-white">
         <strong> [[${#httpServletRequest.remoteUser}]]</strong> with roles:
         <tr th:each="role: ${currentUserRoleList}">
             <td th:text="${role.getName()}" />
